@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 
+if [ -n "$1" ]; then
 cat > "/etc/nginx/sites-available/$1" <<EOF
 server {
     listen 80 ;
 
-    root /var/www/shoplooks_api;
+    root $2;
     index index.html index.htm index.php;
 
-    server_name shoplooksapi.me www.shoplooksapi.me;
+    server_name $1 www.$1;
 
     location / {
         try_files \$uri \$uri/ =404;
@@ -41,6 +42,4 @@ EOF
 
 
 ln -fs "/etc/nginx/sites-available/$1" "/etc/nginx/sites-enabled/$1"
-
-
-sudo service nginx restart
+fi
